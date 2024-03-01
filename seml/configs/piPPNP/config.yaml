@@ -1,0 +1,53 @@
+seml:
+  executable: main.py
+  name: pippnp
+  output_dir: ~/log
+  project_root_dir: ../../scripts/piPPNP/
+
+slurm:
+  experiments_per_job: 1
+  sbatch_options:
+    mem: 40G          # memory
+    cpus-per-task: 4 # num cores
+    time: 2-00:00     # max time, D-HH:MM
+    partition: ['cpu']
+    qos: 'cpu'
+
+
+fixed:
+  conf.save: True
+  conf.save_dir: anon/results
+  hparams.dataset_path: anon/data
+                      
+  hparams.lr: 0.001
+  hparams.weight_decay: 5e-4
+  hparams.patience: 50
+  hparams.max_epochs: 1000
+  hparams.device: "cpu"
+  hparams.alpha: 0.85
+  hparams.n_hidden: 64
+
+grid:
+  hparams.dataset:
+    type: choice
+    options:
+    - "Cora"
+    - "Citeseer"
+
+  hparams.threat_model:
+    type: choice
+    options:
+    - 'rem'
+    - 'add_rem'
+  
+  hparams.ca:
+    type: range
+    min: 1
+    max: 5
+    step: 1
+
+  hparams.cd:
+    type: range
+    min: 1
+    max: 5 
+    step: 1

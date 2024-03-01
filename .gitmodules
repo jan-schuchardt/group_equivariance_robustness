@@ -1,0 +1,21 @@
+[submodule "reference_implementations/RoboGraph"]
+	path = reference_implementations/RoboGraph
+	url = https://github.com/RobustGraph/RoboGraph.git
+[submodule "reference_implementations/robust-gcn"]
+	path = reference_implementations/robust-gcn
+	url = https://github.com/danielzuegner/robust-gcn.git
+[submodule "reference_implementations/uncertainty-molecules"]
+	path = reference_implementations/uncertainty-molecules
+	url = https://gitlab.lrz.de/charpent/uncertainty-molecules.git
+[submodule "reference_implementations/gemnet_pytorch"]
+	path = reference_implementations/gemnet_pytorch
+	url = https://github.com/TUM-DAML/gemnet_pytorch.git
+[submodule "reference_implementations/sparse_smoothing"]
+	path = reference_implementations/sparse_smoothing
+	url = https://github.com/abojchevski/sparse_smoothing
+[submodule "reference_implementations/graph_cert"]
+	path = reference_implementations/graph_cert
+	url = https://github.com/abojchevski/graph_cert
+[submodule "reference_implementations/invariance-smoothing"]
+	path = reference_implementations/invariance-smoothing
+	url = https://github.com/jan-schuchardt/invariance-smoothing

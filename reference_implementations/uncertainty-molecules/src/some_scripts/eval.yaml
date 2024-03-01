@@ -1,0 +1,32 @@
+seml:
+  executable: 'some_scripts/standard_fit.py'
+  output_dir: '~/staff/uncertainty-molecules/src/experiments/slurm_out'
+  conda_environment: 'uq4mol'
+  project_root_dir: '~/staff/uncertainty-molecules/src'
+
+slurm:
+  experiments_per_job: 1
+  sbatch_options:
+    gres: gpu:1
+    mem:  16G
+    cpus-per-task: 4
+    time: 30-00:00
+    partition: gpu_all
+
+fixed:
+  useless_param: 1
+grid:
+  n_inducing_points:
+    type: choice
+    options:
+      - 1
+      - 2
+      - 10
+      - 50
+      - 100
+      - 1000
+      - 5000
+  model_type:
+    type: choice
+    options: 
+      - 'approx_gp'

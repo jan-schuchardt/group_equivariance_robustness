@@ -1,0 +1,120 @@
+seml:
+  executable: ../../scripts/force_fields/certify_center.py
+  output_dir: ~/logs
+  conda_environment: equivariance_robustness
+  project_root_dir: ../../..
+  name: cert_forces_dimenet
+
+slurm:
+  experiments_per_job: 1
+  sbatch_options:
+    gres: gpu:1
+    mem:  16G
+    cpus-per-task: 3
+    time: 1-00:00
+    partition: gpu_all
+
+fixed:
+
+  smoothing_params:
+    alpha_1: 0.005
+    alpha_2: 0.005
+    n_samples_pred: 10000
+    n_samples_cert: 10000
+    sample_batch_size: 64
+
+  n_budget_steps: 1000
+  n_molecules: 1000
+
+  cert_dir: /your/path/to/equivariance_certification_results/force_fields/certificates
+
+  model_name: dimenet++
+
+  dataset: MD17
+  data_seed: 42
+  dataset_params:
+    dataset_directory: /your/path/to/datasets
+    num_workers: 1
+  prediction_type: force
+
+  rho_force: 0.99
+  loss: energy_mae_force_rmse
+
+  model_params:
+    hidden_channels: 128
+    out_channels: 1
+    num_blocks: 4
+    num_bilinear: 8
+    num_spherical: 7
+    num_radial: 6
+    int_emb_size: 64
+    basis_emb_size: 8
+    out_emb_size: 256
+    cutoff: 5.0
+    envelope_exponent: 5
+    num_before_skip: 1
+    num_after_skip: 2
+    num_output_layers: 3
+
+  train_loading:
+    collection: equivariance_force_fields_train
+    exp_id: None
+    restrictions:
+      data_seed: 42
+      model_name: dimenet++
+      prediction_type: force
+      smoothing_params.std: 0.0
+
+grid: 
+  train_loading.restrictions.model_seed:
+    type: choice
+    options: 
+      - 0
+      #- 1
+      #- 2
+      #- 3
+      #- 4
+
+  target:
+    type: choice
+    options:
+      - aspirin
+      - uracil
+      - ethanol
+      - benzene
+      - napthalene
+      - toluene
+      - salicylic acid
+      - malonaldehyde
+    zip_id: target_zip
+
+  train_loading.restrictions.target:
+    type: choice
+    options:
+      - aspirin
+      - uracil
+      - ethanol
+      - benzene
+      - napthalene
+      - toluene
+      - salicylic acid
+      - malonaldehyde
+    zip_id: target_zip
+
+  smoothing_params.std:
+    type: choice
+    options:
+      #- 0.0
+      - 0.00001
+      #- 0.0001
+      #- 0.001
+      #- 0.005
+      #- 0.01
+      #- 0.05
+      #- 0.1
+
+  smoothing_params.delta:
+    type: choice
+    options:
+      - 0.05
+      #- 0.1

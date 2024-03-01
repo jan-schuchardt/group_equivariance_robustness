@@ -1,0 +1,28 @@
+seml:
+  executable: main.py
+  name: sparse_smoothing_post_processing
+  output_dir: ~/log
+  project_root_dir: ../../scripts/sparse_smoothing/post_processing/
+
+slurm:
+  experiments_per_job: 1
+  sbatch_options:
+    #gres: gpu:0       # num GPUs
+    mem: 15G          # memory
+    cpus-per-task: 1  # num cores
+    time: 10-00:00     # max time, D-HH:MM
+    partition: ['cpu']
+    qos: 'cpu'
+
+fixed:
+  conf.save: False
+  conf.save_dir: anon/results
+  hparams.dataset_path: anon/data
+  hparams.device: 'cpu'
+
+grid:
+  hparams.exp:
+    type: range
+    min: 0
+    max: 500
+    step: 1

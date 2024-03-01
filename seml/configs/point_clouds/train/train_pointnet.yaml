@@ -1,0 +1,138 @@
+seml:
+  executable: ../../../reference_implementations/invariance_smoothing/seml/scripts/train.py
+  conda_environment: equivariance_robustness
+  project_root_dir: ../../../reference_implementations/invariance_smoothing/
+  output_dir: ~/logs
+  name: train
+
+slurm:
+  experiments_per_job: 1
+  sbatch_options:
+    gres: gpu:1       # num GPUs
+    mem: 16G          # memory
+    cpus-per-task: 6  # num cores
+    time: 0-4:00     # max time, D-HH:MM
+
+fixed:
+
+  save_dir: /your/path/to/equivariance_certification_results/modelnet40/train
+
+  # TODO: Make these proper nested dictionaries, unless necessary
+  # Only use dot notation when trying to manipulate single nested parameter
+
+grid:
+  seed:
+    type: choice
+    options:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+
+modelnet_unsmoothed:
+
+  fixed:
+    dataset:
+      name: modelnet40
+      data_folder: /your/path/to/modelnet/modelnet40_normal_resampled
+      val_percentage: 0.2
+
+    model:
+      model_type: pointnet
+      model_params:
+        input_tnet: True
+        feature_tnet: False
+        n_classes: 40
+        n_point_dim: 3
+        n_feat_dim: 0
+      invariance_wrapper_params:
+        wrapper_type: no_wrapper
+        random_sign: False
+        random_order: False
+  
+    training_params:
+      weight_decay: 0.0001
+      num_epochs: 200
+      batch_size: 128
+      learning_rate: 0.001
+      regularization_weight: 0.001
+      scheduler_stepsize: 20
+      scheduler_gamma: 0.7
+      num_workers: 4
+      rotate: False
+      scale: True
+      add_noise: False
+      rotate_validation: False
+      add_noise_validation: False
+      scale_limits: [0.8, 1.25]
+      std: 0.0
+
+modelnet_smoothed:
+
+  fixed:
+    dataset:
+      name: modelnet40
+      data_folder: /nfs/shared/modelnet/modelnet40_normal_resampled
+      val_percentage: 0.2
+
+    model:
+      model_type: pointnet
+      model_params:
+        input_tnet: True
+        feature_tnet: False
+        n_classes: 40
+        n_point_dim: 3
+        n_feat_dim: 0
+      invariance_wrapper_params:
+        wrapper_type: no_wrapper
+        random_sign: False
+        random_order: False
+  
+    training_params:
+      weight_decay: 0.0001
+      num_epochs: 200
+      batch_size: 128
+      learning_rate: 0.001
+      regularization_weight: 0.001
+      scheduler_stepsize: 20
+      scheduler_gamma: 0.7
+      num_workers: 4
+      scale: True
+      add_noise: True
+      rotate: False
+      rotate_validation: False
+      add_noise_validation: True
+      scale_limits: [0.8, 1.25]
+  
+  grid:
+    training_params.std:
+      type: choice
+      options:
+        #- 0.01
+        #- 0.02
+        #- 0.025
+        #- 0.03
+        #- 0.04
+        - 0.05
+        #- 0.06
+        #- 0.07
+        #- 0.075
+        #- 0.08
+        #- 0.09
+        - 0.1
+        #- 0.125
+        - 0.15
+        #- 0.175
+        - 0.2
+        #- 0.225
+        - 0.25
+        #- 0.3
+        #- 0.4
+        #- 0.5
+        #- 0.6
+        #- 0.7
+        #- 0.75
+        #- 0.8
+        #- 0.9
+        #- 1.0

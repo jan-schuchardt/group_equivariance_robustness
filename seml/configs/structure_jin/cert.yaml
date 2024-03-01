@@ -1,0 +1,97 @@
+seml:
+  executable: ../../scripts/structure_jin/structure_cert.py
+  conda_environment: equivariance_robustness
+  project_root_dir: ../../..
+  output_dir: ~/logs
+  name: structure_jin
+
+slurm:
+  experiments_per_job: 6
+  sbatch_options:
+    gres: gpu:1
+    mem: 32G          # memory
+    cpus-per-task: 6  # num cores
+    time: 5-00:00     # max time, D-HH:MM
+    exclude: gpu10
+
+fixed:
+
+  save_dir: /your/path/to/equivariance_certification_results/structure_jin
+
+  dataset_params:
+    root: /your/path/to/datasets/tudataset
+  
+  training_params:
+    num_epochs: 200
+    batch_size: 20
+
+  certification_params:
+    max_global_budget: 51
+    budget_steps: 2
+    dual_iterations: 100
+
+  dim_hidden: 64
+  dropout: 0.0
+
+grid:
+  seed:
+    type: choice
+    options:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      #- 5
+      #- 6
+      #- 7
+      #- 8
+      #- 9
+    
+  dataset_params.name:
+    type: choice
+    options:
+      - MUTAG
+      - PROTEINS
+      - ENZYMES
+
+  certification_params.local_strength:
+    type: choice
+    options:
+      #- 1
+      #- 2
+      - 3
+      #- 4
+
+
+  certification_params.max_degree:
+    type: choice
+    options:
+      - None
+      #- 11
+
+vary_cost_add:
+  fixed:
+    certification_params.cost_del: 1
+  
+  grid:
+    certification_params.cost_add:
+      type: choice
+      options:
+        - 1
+        - 2
+        #- 3
+        - 4
+
+vary_cost_del:
+  fixed:
+    certification_params.cost_add: 1
+  
+  grid:
+    certification_params.cost_del:
+      type: choice
+      options:
+        - 1
+        - 2
+        #- 3
+        - 4

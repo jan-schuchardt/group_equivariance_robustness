@@ -1,0 +1,101 @@
+seml:
+  executable: ../../scripts/attributes_zuegner/attribute_cert.py
+  conda_environment: equivariance_robustness
+  project_root_dir: ../../..
+  output_dir: ~/logs
+  name: attributes_zuegner
+
+slurm:
+  experiments_per_job: 1
+  sbatch_options:
+    gres: gpu:1
+    mem: 16G          # memory
+    cpus-per-task: 4  # num cores
+    time: 0-01:00     # max time, D-HH:MM
+    exclude: gpu10
+
+fixed:
+
+  save_dir: /your/path/to/equivariance_certification_results/attributes_zuegner
+
+  dataset_params:
+    root: /your/path/to/datasets/planetoid
+    n_per_class: 20
+  
+  training_params:
+    n_iters: 3000
+    method: Normal
+    learning_rate: 1e-3
+    weight_decay: 5e-4
+    early_stopping: 50
+
+  certification_params:
+    q_relative: True
+    Q_max: 100
+    optimize_omega: False
+    optimize_steps: 5
+    batch_size: 8
+    certify_nonrobustness: False
+
+grid:
+  seed:
+    type: choice
+    options:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      #- 5
+      #- 6
+      #- 7
+      #- 8
+      #- 9
+
+  hidden_sizes:
+    type: choice
+    options:
+      - [32]
+      #- [64]
+
+  certification_params.q:
+    type: choice
+    options:
+      - 0.01
+      - 0.02
+      - 0.04
+      - 0.005
+      - 0.0025
+
+  dataset_params.name:
+    type: choice
+    options:
+      - Citeseer
+      - Cora
+      #- PubMed
+
+vary_cost_add:
+  fixed:
+    certification_params.cost_del: 1
+  
+  grid:
+    certification_params.cost_add:
+      type: choice
+      options:
+        - 1
+        - 2
+        - 3
+        - 4
+
+vary_cost_del:
+  fixed:
+    certification_params.cost_add: 1
+  
+  grid:
+    certification_params.cost_del:
+      type: choice
+      options:
+        - 1
+        - 2
+        - 3
+        - 4

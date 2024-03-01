@@ -1,0 +1,151 @@
+seml:
+  executable: main.py
+  name: sparse_smoothing
+  output_dir: ~/log
+  project_root_dir: ../../scripts/sparse_smoothing/certification/
+
+slurm:
+  experiments_per_job: 1
+  sbatch_options:
+    gres: gpu:1       # num GPUs
+    mem: 15G          # memory
+    cpus-per-task: 4  # num cores
+    time: 2-00:00     # max time, D-HH:MM
+
+fixed:
+  conf.save: True
+  conf.save_dir: anon/results
+  hparams.dataset_path: anon/data
+  hparams.device: 'cuda'
+
+  hparams.lr: 0.001
+  hparams.weight_decay: 5e-4
+  hparams.max_epochs: 3_000 
+  hparams.early_stopping: 50
+  hparams.alpha: 0.01
+  hparams.logging: False
+
+  hparams.n0: 1_000
+  hparams.n1: 1_000_000
+  hparams.batch_size: 50
+
+  hparams.num_layers: 2
+  hparams.num_seeds: 5
+  hparams.p_dropout: 0.5
+        
+  hparams.p_adj_plus: 0
+  hparams.p_adj_minus: 0
+
+grid:
+  hparams.p_att_plus:
+    type: choice
+    options:
+      - 0
+      - 0.001
+      - 0.002
+      - 0.01
+  hparams.p_att_minus:
+    type: choice
+    options:
+      - 0
+      - 0.4
+      - 0.6
+      - 0.8
+
+cora_GCN:
+  fixed:
+    hparams.task: "node_classification"
+    hparams.dataset: "Cora"
+    hparams.in_channels: 1433 
+    hparams.out_channels: 7
+
+    hparams.arch: "GCN"
+  grid:
+    hparams.hidden_channels: 
+      type: choice
+      options:
+        - 32
+        - 64
+
+cora_GAT:
+  fixed:
+    hparams.task: "node_classification"
+    hparams.dataset: "Cora"
+    hparams.in_channels: 1433 
+    hparams.out_channels: 7
+
+    hparams.arch: "GAT"
+    hparams.k_heads: 8
+    hparams.hidden_channels: 8
+
+cora_APPNP:
+  fixed:
+    hparams.task: "node_classification"
+    hparams.dataset: "Cora"
+    hparams.in_channels: 1433 
+    hparams.out_channels: 7
+    hparams.k_hops: 10
+    hparams.appnp_alpha: 0.15
+
+    hparams.arch: "APPNP"
+  grid:
+    hparams.hidden_channels: 
+      type: choice
+      options:
+        - 32
+        - 64
+
+citeseer_GCN:
+  fixed:
+    hparams.task: "node_classification"
+    hparams.dataset: "Citeseer"
+    hparams.in_channels: 3703
+    hparams.out_channels: 6
+
+    hparams.arch: "GCN"
+  grid:
+    hparams.hidden_channels: 
+      type: choice
+      options:
+        - 32
+        - 64
+
+citeseer_GAT:
+  fixed:
+    hparams.task: "node_classification"
+    hparams.dataset: "Citeseer"
+    hparams.in_channels: 3703
+    hparams.out_channels: 6
+
+    hparams.arch: "GAT"
+    hparams.k_heads: 8
+    hparams.hidden_channels: 8
+
+citeseer_APPNP:
+  fixed:
+    hparams.task: "node_classification"
+    hparams.dataset: "Citeseer"
+    hparams.in_channels: 3703
+    hparams.out_channels: 6
+    hparams.k_hops: 10
+    hparams.appnp_alpha: 0.15
+
+    hparams.arch: "APPNP"
+  grid:
+    hparams.hidden_channels: 
+      type: choice
+      options:
+        - 32
+        - 64
+
+# graph classification
+enz_SGCN:
+  fixed:
+    hparams.task: "graph_classification"
+    hparams.dataset: "ENZYMES"
+    hparams.in_channels: 21
+    hparams.out_channels: 7
+
+    hparams.arch: "SimpleGCN"
+    hparams.hidden_channels: 64
+    hparams.n1: 10_000

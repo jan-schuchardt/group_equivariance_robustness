@@ -1,0 +1,103 @@
+seml:
+  executable: ../../scripts/force_fields/train_seml.py
+  output_dir: ~/logs
+  conda_environment: equivariance_robustness
+  project_root_dir: ../../..
+  name: forces_dimenet
+
+slurm:
+  experiments_per_job: 4
+  sbatch_options:
+    gres: gpu:1
+    mem:  40G
+    cpus-per-task: 8
+    time: 3-00:00
+    partition: gpu_all
+
+fixed:
+  logdir: "/your/path/to/equivariance_certification_results/force_fields/training"
+  debug: false
+  model_name: "dimenet++"
+  model_params:
+    hidden_channels: 128
+    out_channels: 1
+    num_blocks: 4
+    num_bilinear: 8
+    num_spherical: 7
+    num_radial: 6
+    int_emb_size: 64
+    basis_emb_size: 8
+    out_emb_size: 256
+    cutoff: 5.0
+    envelope_exponent: 5
+    num_before_skip: 1
+    num_after_skip: 2
+    num_output_layers: 3
+
+  prediction_type: 'force'
+  normalize: true
+
+  dataset: 'MD17'
+  data_seed: 42
+  num_epochs: 1000
+  num_datapoints: 1000
+  patience: 50
+
+  dataset_params:
+    dataset_directory: /your/path/to/datasets
+
+  batch_size: 1
+  val_batch_size: 32
+  loss: 'energy_mae_force_rmse'
+  rho_force: 0.99
+  ema_decay: 0.999
+  save_ema: true
+  optimizer: 'adam'
+  optimizer_params:
+    amsgrad: true
+    lr: 0.001
+
+  scheduler: 'linear_warmup_exponential_decay'
+  scheduler_params:
+    warmup_steps: 1000 
+    decay_steps: 400000
+    decay_rate: 0.01
+
+  smoothing_params:
+    alpha_1: 0.005
+    alpha_2: 0.005
+    delta: 0.05
+    n_samples_pred: 10000
+    n_samples_cert: 10000
+    sample_batch_size: 64
+
+grid: 
+  model_seed:
+    type: choice
+    options: 
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+
+  target:
+    type: choice
+    options:
+      - 'aspirin'
+      - 'uracil'
+      - 'ethanol'
+      - 'benzene'
+      - 'napthalene'
+      - 'toluene'
+      - 'salicylic acid'
+      - 'malonaldehyde'
+  
+  smoothing_params.std:
+    type: choice
+    options:
+      - 0.0
+      #- 0.001
+      #- 0.01
+      #- 0.05
+      #- 0.1
