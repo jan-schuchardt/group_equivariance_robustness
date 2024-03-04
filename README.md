@@ -11,7 +11,7 @@ Jan Schuchardt, Yan Scholten, and Stephan Günnemann, NeurIPS 2023.
 ## Requirements
 To install the requirements, execute
 ```
-conda env create -f environment.yaml
+conda env create -f environment.yml
 ```
 
 You also need to download reference implementations of different geometric machine learning models and certificates, which we extend.

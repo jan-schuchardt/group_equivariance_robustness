@@ -16,7 +16,7 @@ slurm:
 
 fixed:
   conf.save: False
-  conf.save_dir: anon/results
+  conf.save_dir: anon/results/sparse_smoothing/post
   hparams.dataset_path: anon/data
   hparams.device: 'cpu'
 
@@ -24,5 +24,5 @@ grid:
   hparams.exp:
     type: range
     min: 0
-    max: 500
+    max: 352
     step: 1

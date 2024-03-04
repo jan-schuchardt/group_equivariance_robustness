@@ -16,7 +16,7 @@ slurm:
 
 fixed:
   conf.save: True
-  conf.save_dir: anon/results
+  conf.save_dir: anon/results/pippnp
   hparams.dataset_path: anon/data
                       
   hparams.lr: 0.001

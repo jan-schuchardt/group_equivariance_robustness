@@ -12,7 +12,7 @@ class Experiment():
 
     def run(self, hparams):
 
-        df_results = seml.get_results('test', to_data_frame=True)
+        df_results = seml.get_results('graph_cert_sparse_smoothing', to_data_frame=True)
 
         id = hparams['exp']
         load_dir = df_results.iloc[id]["config.conf.save_dir"] + "/" + \
@@ -50,7 +50,7 @@ class Experiment():
                 (df_results.iloc[id]['config.hparams.p_adj_minus'] > 0) &\
                 (df_results.iloc[id]['config.hparams.p_att_plus'] > 0) &\
                     (df_results.iloc[id]['config.hparams.p_att_minus'] > 0):
-                # ca_A, cd_A, ca_F, cd_F,
+                # ca_A, cd_A, ca_F, cd_F, i.e. joint cert
                 for i_ca_A in tqdm(np.arange(1, 10, 1)):
                     for i_cd_A in np.arange(1, 10, 1):
                         for i_ca_F in np.arange(1, 10, 1):

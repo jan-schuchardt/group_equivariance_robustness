@@ -71,10 +71,22 @@ Then run `plotting/graphs/structure_jin/ged_certs.ipynb`.
 
 
 ### Sparsity-Aware Smoothing (Fig. 5, 18-29)
-TODO (configs are in `seml/configs/sparse_smoothing`)
+```
+seml graph_cert_sparse_smoothing add attributes.yaml start
+seml graph_cert_sparse_smoothing add graph.yaml start
+seml graph_cert_sparse_smoothing add joint.yaml start
+seml graph_cert_sparse_smoothing_post add post_processing.yaml start
+```
+
+Then run `plotting/graphs/sparse_smoothing/ged_certs.ipynb`.
 
 ### Policy iteration (Fig. 14 & 15)
-TODO (configs are in `seml/configs/piPPNP`)
+```
+seml graph_cert_piPPNP add cert.yaml
+```
+
+Then run `plotting/graphs/structure_piPPNP/ged_certs.ipynb`.
+
 
 ### Attacks (Fig. 30b)
 Run `plotting/attacks/attribute_zuegner/attack.ipynb`.  

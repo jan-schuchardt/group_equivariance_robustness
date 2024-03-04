@@ -14,7 +14,7 @@ slurm:
 
 fixed:
   conf.save: True
-  conf.save_dir: anon/results
+  conf.save_dir: anon/results/sparse_smoothing
   hparams.dataset_path: anon/data
   hparams.device: 'cuda'
 
